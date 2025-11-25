@@ -19,7 +19,7 @@ function resetData() {
 </script>
 
 <template>
-    <div class="flex gap-8">
+    <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
             <input
                 v-model="text"
