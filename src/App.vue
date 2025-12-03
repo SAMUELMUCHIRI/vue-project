@@ -49,7 +49,7 @@ function resetData() {
             </button>
         </div>
         <div class="flex flex-col gap-2">
-            <Test>Assignmet Tracker</Test>
+            <Test title="bad">Assignmet Tracker</Test>
         </div>
     </div>
 </template>
