@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
+import AssignmentList from "./AssignmentList.vue";
 const assignments = ref([
     {
         id: 1,
@@ -26,15 +27,12 @@ const assignments = ref([
     },
 ]);
 const r_comp = ref(false);
-function removeCompleted() {
-    r_comp.value = true;
-    for (let assignment of assignments.value) {
-        assignment.completed = false;
-    }
-}
+const new_assignment = ref("");
+
 defineProps({
     title: String,
 });
+
 const Inprogress = computed(() =>
     assignments.value.filter((assignment) => !assignment.completed),
 );
@@ -42,6 +40,15 @@ const Inprogress = computed(() =>
 const Completed = computed(() =>
     assignments.value.filter((assignment) => assignment.completed),
 );
+
+function add() {
+    assignments.value.push({
+        id: assignments.value.length + 1,
+        name: new_assignment.value,
+        completed: false,
+    });
+    new_assignment.value = "";
+}
 </script>
 <template>
     <h1
@@ -53,31 +60,28 @@ const Completed = computed(() =>
     >
         <slot />
     </h1>
-    <div name="inprogress" v-if="Inprogress.length > 0" class="flex-1 flex-col">
-        <p class="font-bold">In Progress</p>
-        <li v-for="item in Inprogress" :key="item.id">
-            <label class="px-4"
-                >{{ item.name }}
-                <input v-model="item.completed" type="checkbox"
-            /></label>
-        </li>
-    </div>
-
-    <div name="completed" v-if="Completed.length > 0" class="flex-1 flex-col">
-        <p class="font-bold">Completed</p>
-        <li v-for="item in Completed" :key="item.id">
-            <label class="px-4 line-through">{{ item.name }} </label>
-        </li>
-    </div>
-    <button
-        @click="removeCompleted"
-        type="button"
-        :class="{
-            'rounded p-2 font-bold text-white bg-amber-500 hover:bg-amber-400': true,
-            'disabled:opacity-50': Completed.length < 1,
-        }"
-        :disabled="Completed.length < 1"
-    >
-        Remove Completed
-    </button>
+    <section class="space-y-6">
+        <AssignmentList
+            :AssignmentList="Inprogress"
+            AssignmentName="In Progress"
+        ></AssignmentList>
+        <AssignmentList
+            :AssignmentList="Completed"
+            AssignmentName="Completed"
+        ></AssignmentList>
+        <form @submit.prevent="add">
+            <div
+                class="flex items-center justify-between border bg-white text-black border-gray-700"
+            >
+                <input
+                    v-model="new_assignment"
+                    placeholder="New Assignment"
+                    class="p-2"
+                />
+                <button type="submit" class="p-2 border-l border-gray-600">
+                    Add
+                </button>
+            </div>
+        </form>
+    </section>
 </template>
