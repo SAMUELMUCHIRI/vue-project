@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import AssignmentList from "./AssignmentList.vue";
+import AssignmentCreate from "./AssignmentCreate.vue";
 const assignments = ref([
     {
         id: 1,
@@ -41,13 +42,12 @@ const Completed = computed(() =>
     assignments.value.filter((assignment) => assignment.completed),
 );
 
-function add() {
+function add(name) {
     assignments.value.push({
         id: assignments.value.length + 1,
-        name: new_assignment.value,
+        name: name,
         completed: false,
     });
-    new_assignment.value = "";
 }
 </script>
 <template>
@@ -69,19 +69,6 @@ function add() {
             :AssignmentList="Completed"
             AssignmentName="Completed"
         ></AssignmentList>
-        <form @submit.prevent="add">
-            <div
-                class="flex items-center justify-between border bg-white text-black border-gray-700"
-            >
-                <input
-                    v-model="new_assignment"
-                    placeholder="New Assignment"
-                    class="p-2"
-                />
-                <button type="submit" class="p-2 border-l border-gray-600">
-                    Add
-                </button>
-            </div>
-        </form>
+        <AssignmentCreate @add="add"></AssignmentCreate>
     </section>
 </template>
