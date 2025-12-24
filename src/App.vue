@@ -1,5 +1,4 @@
-<script setup>
-import { computed, ref } from "vue";
+<script setup lang="ts">
 import Test from "./components/Test.vue";
 </script>
 

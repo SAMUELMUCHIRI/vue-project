@@ -1,6 +1,16 @@
-<script setup>
-defineProps({
-    assignment: Object,
+<script setup lang="ts">
+import type { PropType } from "vue";
+
+const props = defineProps({
+    assignment: {
+        type: Object as PropType<{
+            id: number;
+            name: string;
+            tag: string;
+            completed: boolean;
+        }>,
+        required: true,
+    },
 });
 </script>
 <template>

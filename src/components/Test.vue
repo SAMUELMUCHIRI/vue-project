@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from "vue";
 import AssignmentList from "./AssignmentList.vue";
 import AssignmentCreate from "./AssignmentCreate.vue";
@@ -8,7 +8,6 @@ const assignments = ref([
         id: 1,
         name: "Assignment 1",
         tag: "math",
-
         completed: false,
     },
     {
@@ -33,8 +32,6 @@ const assignments = ref([
         completed: false,
     },
 ]);
-const r_comp = ref(false);
-const new_assignment = ref("");
 
 const Inprogress = computed(() =>
     assignments.value.filter((assignment) => !assignment.completed),
@@ -44,10 +41,11 @@ const Completed = computed(() =>
     assignments.value.filter((assignment) => assignment.completed),
 );
 
-function add(name) {
+function add(name: string) {
     assignments.value.push({
         id: assignments.value.length + 1,
         name: name,
+        tag: "math",
         completed: false,
     });
 }

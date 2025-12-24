@@ -1,8 +1,9 @@
-<script setup>
-import { ref, defineProps, computed } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
+
 const props = defineProps({
     tags: {
-        type: Array,
+        type: Array<string>,
         required: true,
     },
     currentTag: {

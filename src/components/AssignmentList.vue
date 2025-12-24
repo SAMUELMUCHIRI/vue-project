@@ -1,10 +1,17 @@
-<script setup>
+<script setup lang="ts">
+interface AssignmentType {
+    id: number;
+    name: string;
+    tag: string;
+    completed: boolean;
+}
+
 import { computed, ref } from "vue";
 import Assignment from "./Assignment.vue";
 import AssignmentTags from "./AssignmentTags.vue";
 const propsList = defineProps({
     AssignmentList: {
-        type: Array,
+        type: Array<AssignmentType>,
         required: true,
     },
     AssignmentName: {
