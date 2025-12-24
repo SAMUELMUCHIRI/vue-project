@@ -18,7 +18,9 @@ defineProps({
         v-if="AssignmentList.length > 0"
         class="flex-1 flex-col"
     >
-        <p class="font-bold">{{ AssignmentName }}</p>
+        <p class="font-bold">
+            {{ AssignmentName }} ({{ AssignmentList.length }})
+        </p>
         <ul class="border border-gray-700 rounded-md divide-y divide-gray-700">
             <Assignment
                 v-for="assignment in AssignmentList"

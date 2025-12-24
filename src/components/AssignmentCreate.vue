@@ -13,7 +13,7 @@ function add() {
 <template>
     <form @submit.prevent="add">
         <div
-            class="flex items-center justify-between border bg-white text-black border-gray-700"
+            class="flex items-center justify-between border bg-white rounded-xl text-black border-gray-700"
         >
             <input
                 v-model="new_assignment"
