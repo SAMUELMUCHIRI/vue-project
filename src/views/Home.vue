@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Test from "./components/Test.vue";
-import Panel from "./components/Panel.vue";
+import Test from "@/components/Test.vue";
+import Panel from "@/components/Panel.vue";
 </script>
 
 <template>

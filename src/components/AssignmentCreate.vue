@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Input } from "@/components/ui/input";
 import { ref } from "vue";
 const emit = defineEmits(["add"]);
 
@@ -13,9 +14,9 @@ function add() {
 <template>
     <form @submit.prevent="add">
         <div
-            class="flex items-center justify-between border bg-white rounded-xl text-black border-gray-700"
+            class="flex items-center justify-between border bg-white rounded text-black border-gray-700"
         >
-            <input
+            <Input
                 v-model="new_assignment"
                 placeholder="New Assignment"
                 class="p-2"

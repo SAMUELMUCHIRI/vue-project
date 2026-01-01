@@ -1,38 +1,25 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import AssignmentList from "./AssignmentList.vue";
 import AssignmentCreate from "./AssignmentCreate.vue";
+interface AssignmentType {
+    id: number;
+    name: string;
+    tag: string;
+    completed: boolean;
+}
 
-const assignments = ref([
-    {
-        id: 1,
-        name: "Assignment 1",
-        tag: "math",
-        completed: false,
-    },
-    {
-        id: 2,
-        name: "Assignment 2",
-        tag: "science",
+const assignments = ref<AssignmentType[]>([]);
 
-        completed: false,
-    },
-    {
-        id: 3,
-        name: "Assignment 3",
-        tag: "math",
-
-        completed: false,
-    },
-    {
-        id: 4,
-        name: "Assignment 4",
-        tag: "science",
-
-        completed: false,
-    },
-]);
-
+onMounted(async () => {
+    try {
+        const response = await fetch("http://localhost:3000/assignments");
+        assignments.value = await response.json();
+    } catch (error) {
+        console.log("Local source of assignments not found");
+        assignments.value = [];
+    }
+});
 const Inprogress = computed(() =>
     assignments.value.filter((assignment) => !assignment.completed),
 );
@@ -40,7 +27,7 @@ const Inprogress = computed(() =>
 const Completed = computed(() =>
     assignments.value.filter((assignment) => assignment.completed),
 );
-
+const showCompleted = ref(true);
 function add(name: string) {
     assignments.value.push({
         id: assignments.value.length + 1,
@@ -59,15 +46,19 @@ function add(name: string) {
         <slot />
     </h1>
 
-    <section class="space-y-6">
+    <section class="space-y-6 flex gap-8">
         <AssignmentList
             :AssignmentList="Inprogress"
             AssignmentName="In Progress"
-        ></AssignmentList>
+        >
+            <AssignmentCreate @add="add"></AssignmentCreate>
+        </AssignmentList>
         <AssignmentList
+            v-if="showCompleted"
             :AssignmentList="Completed"
             AssignmentName="Completed"
+            toggleable
+            @toggle="showCompleted = !showCompleted"
         ></AssignmentList>
-        <AssignmentCreate @add="add"></AssignmentCreate>
     </section>
 </template>

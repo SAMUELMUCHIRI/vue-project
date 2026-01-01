@@ -18,7 +18,12 @@ const propsList = defineProps({
         type: String,
         required: true,
     },
+    toggleable: {
+        type: Boolean,
+        default: false,
+    },
 });
+
 const currentTag = ref("All");
 
 const fil_assignments = computed(() => {
@@ -32,27 +37,40 @@ const fil_assignments = computed(() => {
 });
 </script>
 <template>
-    <div
-        name="{{ AssignmentName }}"
-        v-if="propsList.AssignmentList.length > 0"
-        class="flex-1 flex-col"
-    >
-        <p class="font-bold">
-            {{ propsList.AssignmentName }} ({{ fil_assignments.length }})
-        </p>
-        <AssignmentTags
-            :tags="propsList.AssignmentList.map((assignment) => assignment.tag)"
-            :currentTag="currentTag"
-            @change="currentTag = $event"
-        ></AssignmentTags>
+    <div>
+        <div
+            name="{{ AssignmentName }}"
+            v-if="propsList.AssignmentList.length > 0"
+            class="flex-1 flex-col"
+        >
+            <div class="flex justify-between items-center">
+                <p class="font-bold">
+                    {{ propsList.AssignmentName }} ({{
+                        fil_assignments.length
+                    }})
+                </p>
+                <button v-show="toggleable" @click="$emit('toggle')">
+                    &times;
+                </button>
+            </div>
+            <AssignmentTags
+                :tags="
+                    propsList.AssignmentList.map((assignment) => assignment.tag)
+                "
+                v-model="currentTag"
+            ></AssignmentTags>
 
-        <ul class="border border-gray-700 rounded-md divide-y divide-gray-700">
-            <Assignment
-                v-for="assignment in fil_assignments"
-                :key="assignment.id"
-                :assignment="assignment"
+            <ul
+                class="border border-gray-700 rounded-md divide-y divide-gray-700"
             >
-            </Assignment>
-        </ul>
+                <Assignment
+                    v-for="assignment in fil_assignments"
+                    :key="assignment.id"
+                    :assignment="assignment"
+                >
+                </Assignment>
+            </ul>
+        </div>
+        <slot></slot>
     </div>
 </template>

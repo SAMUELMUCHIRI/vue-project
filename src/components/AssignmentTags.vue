@@ -6,7 +6,7 @@ const props = defineProps({
         type: Array<string>,
         required: true,
     },
-    currentTag: {
+    modelValue: {
         type: String,
         required: true,
     },
@@ -20,9 +20,9 @@ const alltags = computed(() => {
 <template>
     <div class="flex gap-2 my-2">
         <button
-            @click="$emit('change', tag)"
+            @click="$emit('update:modelValue', tag)"
             class="border rounded px-1 py-px text-xs"
-            :class="{ 'bg-blue-500 text-white': currentTag === tag }"
+            :class="{ 'bg-blue-500 text-white': modelValue === tag }"
             v-for="tag in alltags"
             :key="tag"
         >
